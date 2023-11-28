@@ -69,7 +69,7 @@ public class UserProfile {
     private String customField;
 
     @Column(value = "clan")
-    private Map<String, Integer> clan;
+    private Map<String, String> clan;
 
     @Column(value = "devices")
     private List<Device> devices;
@@ -80,7 +80,7 @@ public class UserProfile {
     public UserProfile() {
     }
 
-    public UserProfile(UUID playerId, String credential, Date created, Date modified, Date lastSession, int totalSpent, int totalRefund, int totalTransactions, Date lastPurchase, int level, int xp, int totalPlaytime, String country, String language, Date birthdate, String gender, Map<String, Integer> inventory, String customField, Map<String, Integer> clan, List<Device> devices, List<ActiveCampaign> activeCampaigns) {
+    public UserProfile(UUID playerId, String credential, Date created, Date modified, Date lastSession, int totalSpent, int totalRefund, int totalTransactions, Date lastPurchase, int level, int xp, int totalPlaytime, String country, String language, Date birthdate, String gender, Map<String, Integer> inventory, String customField, Map<String, String> clan, List<Device> devices, List<ActiveCampaign> activeCampaigns) {
         this.playerId = playerId;
         this.credential = credential;
         this.created = created;
@@ -248,11 +248,11 @@ public class UserProfile {
         this.customField = customField;
     }
 
-    public Map<String, Integer> getClan() {
+    public Map<String, String> getClan() {
         return clan;
     }
 
-    public void setClan(Map<String, Integer> clan) {
+    public void setClan(Map<String, String> clan) {
         this.clan = clan;
     }
 

@@ -1,10 +1,13 @@
 package com.example.profilematcher.model.userprofile;
 
+import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.UserDefinedType;
 
 @UserDefinedType("clan_type")
 public class Clan {
+    @Column
     private Long id;
+    @Column
     private String name;
 
     public Clan() {

@@ -3,15 +3,14 @@ package com.example.profilematcher.controller;
 import com.example.profilematcher.model.campaign.*;
 import com.example.profilematcher.model.campaign.elasticsearch.CampaignElasticSearch;
 import com.example.profilematcher.service.impl.CampaignServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "campaign/")
@@ -29,9 +28,8 @@ public class CampaignController {
         LevelMatcher levelMatcher = new LevelMatcher(1L, 3L);
 
         List<String> countries = new ArrayList<>();
-        countries.add("US");
-        countries.add("RO");
-        countries.add("CA");
+
+        countries.add("FR");
         List<String> requiredItems = new ArrayList<>();
         requiredItems.add("item_1");
         HasMatcher hasMatcher = new HasMatcher(countries, requiredItems);
@@ -65,30 +63,32 @@ public class CampaignController {
         );
 
         Campaign savedCampaign = campaignService.save(campaign);
+
         return ResponseEntity.ok(savedCampaign);
     }
 
 
     @GetMapping("/search")
-    public ResponseEntity<List<CampaignElasticSearch>> searchCampaigns(
+    public  Iterable<CampaignElasticSearch> searchCampaigns(
 //            @RequestParam int myLevel,
 //            @RequestParam List<String> country,
 //            @RequestParam List<String> myItems,
 //            @RequestParam List<String> notInItems
-    ) {
+    ) throws JsonProcessingException {
         List<String> myItems = new ArrayList<>();
         myItems.add("item_1");
         myItems.add("item_2");
         myItems.add("item_3");
-        String country = "CA";
-        List<CampaignElasticSearch> campaigns = campaignService.findCampaignsByConditions(3L, country,
-                myItems);
-        return new ResponseEntity<>(campaigns, HttpStatus.OK);
+        String country = "FR";
+        List<String> itemList = Arrays.asList("item_1", "item_2", "item_3");
+        String jsonItems = new ObjectMapper().writeValueAsString(myItems);
+        Iterable<CampaignElasticSearch> campaigns = campaignService.findCampaignsByConditions(1L, country, jsonItems);
+        return campaigns;
     }
 
-    @PostMapping(value = "all")
-    public Iterable<Campaign> getAllAvailableCampaigns(){
-
-        return campaignService.findAll();
-    }
+//    @PostMapping(value = "all")
+//    public Iterable<Campaign> getAllAvailableCampaigns(){
+//
+//        return campaignService.findAll();
+//    }
 }

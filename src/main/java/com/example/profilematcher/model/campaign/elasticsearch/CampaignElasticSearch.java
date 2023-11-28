@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.Date;
 import java.util.UUID;
 
-@Document(indexName = "campaign_index", createIndex = true)
+@Document(indexName = "campaign_index",  createIndex = true)
 public class CampaignElasticSearch {
 
     @Id

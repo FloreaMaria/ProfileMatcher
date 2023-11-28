@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "user_profile/")
@@ -37,7 +34,9 @@ public class UserProfileController {
         Date lastSession = new Date();
         Date lastPurchase = new Date();
         Date birthDate = new Date();
-        Clan clan = new Clan(123456L, "Hello world clan");
+//        Clan clan = new Clan(123456L, "Hello world clan");
+        Map<String, String> clan = new HashMap<>();
+        clan.put("id", "12131");
         UserProfile userProfile = new UserProfile(
                 UUID.randomUUID(),
                 "apple_credential",
@@ -57,7 +56,7 @@ public class UserProfileController {
                 "male",
                 new HashMap<String, Integer>(),
                 "mycustom",
-                new HashMap<String, Integer>(),
+                clan,
                 new ArrayList<Device>(),
                 new ArrayList<ActiveCampaign>()
                 );

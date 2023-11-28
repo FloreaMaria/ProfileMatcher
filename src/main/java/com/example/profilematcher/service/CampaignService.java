@@ -8,9 +8,9 @@ import java.util.Date;
 import java.util.List;
 
 public interface CampaignService {
-    public List<CampaignElasticSearch> findCampaignsByConditions(Long myLevel, String country, List<String> myItems);
+    public List<CampaignElasticSearch> findCampaignsByConditions(Long myLevel, String country, String myItems);
     Campaign save(Campaign campaign);
-    public Iterable<Campaign> findAll();
+    Iterable<CampaignElasticSearch> findAll();
 
 
 }
