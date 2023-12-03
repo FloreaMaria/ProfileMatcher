@@ -1,6 +1,7 @@
 package com.example.profilematcher.service.impl;
 
 import com.example.profilematcher.model.campaign.*;
+import com.example.profilematcher.model.campaign.dto.CampaignDto;
 import com.example.profilematcher.model.campaign.elasticsearch.*;
 import com.example.profilematcher.repository.CampaignRepository;
 import com.example.profilematcher.repository.ElasticsearchCampaignRepository;
@@ -15,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpMethod;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -43,8 +46,33 @@ public class CampaignServiceImpl implements CampaignService {
         return campaignRepository.findAll();
     }
     @Override
-    public Campaign save(Campaign campaign) {
+    public Campaign save(CampaignDto campaignDto) throws ParseException {
+        String game = campaignDto.getGame();
+        String name = campaignDto.getName();
+        Double priority = campaignDto.getPriority();
+        String startDate = campaignDto.getStartDate();
+        String endDate = campaignDto.getEndDate();
+        String lastUpdate = campaignDto.getLastUpdated();
+        Boolean enabled = campaignDto.getEnabled();
+//        LevelMatcher levelMatcher = campaignDto.getLevelMatcher();
+//        HasMatcher hasMatcher = campaignDto.getHasMatcher();
+//        DoesNotHaveMatcher doesNotHaveMatcher = campaignDto.getDoesNotHaveMatcher();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
+        Date startDateFormatted = formatter.parse(startDate);
+        Date endDateFormatted = formatter.parse(endDate);
+        Date lastUpdateFormatted = formatter.parse(lastUpdate);
 
+        CampaignMatcher campaignMatcher = campaignDto.getMatchers();
+        Campaign campaign = new Campaign(UUID.randomUUID(),
+                game,
+                name,
+                priority,
+                campaignMatcher,
+                startDateFormatted,
+                endDateFormatted,
+                enabled,
+                lastUpdateFormatted
+                );
         CampaignElasticSearch elasticsearchCampaign = convertToElasticsearchModel(campaign);
         elasticsearchCampaignRepository.save(elasticsearchCampaign);
 

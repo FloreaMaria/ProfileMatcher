@@ -3,13 +3,19 @@ package com.example.profilematcher.service.impl;
 import com.example.profilematcher.model.campaign.Campaign;
 import com.example.profilematcher.model.campaign.elasticsearch.CampaignElasticSearch;
 import com.example.profilematcher.model.userprofile.ActiveCampaign;
+import com.example.profilematcher.model.userprofile.Device;
 import com.example.profilematcher.model.userprofile.UserProfile;
+import com.example.profilematcher.model.userprofile.dto.UserProfileDto;
 import com.example.profilematcher.repository.UserProfileRepository;
 import com.example.profilematcher.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -73,7 +79,57 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    public UserProfile save(UserProfile userProfile) {
+    public UserProfile save(UserProfileDto userProfileDto) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
+
+        String credential = userProfileDto.getCredential();
+        String created = userProfileDto.getCreated();
+        String modified = userProfileDto.getModified();
+        String lastSession = userProfileDto.getLastSession();
+        Integer totalSpent = userProfileDto.getTotalSpent();
+        Integer totalRefund = userProfileDto.getTotalRefund();
+        Integer totalTransactions = userProfileDto.getTotalTransactions();
+        Integer level = userProfileDto.getLevel();
+        Integer xp = userProfileDto.getXp();
+        Integer totalPlayTime = userProfileDto.getTotalPlayTime();
+        String country = userProfileDto.getCountry();
+        String language = userProfileDto.getLanguage();
+        String gender = userProfileDto.getGender();
+        String customField = userProfileDto.getCustomField();
+        String lastPurchase = userProfileDto.getLastPurchase();
+        String birthDate = userProfileDto.getBirthDate();
+        Map<String, String> clan = userProfileDto.getClan();
+        Map<String, Integer> inventory = userProfileDto.getInventory();
+        List<Device> devices = userProfileDto.getDevices();
+
+        Date createdDate = formatter.parse(created);
+        Date modifiedDate = formatter.parse(modified);
+        Date lastSessionDate = formatter.parse(lastSession);
+        Date lastPurchaseDate =  formatter.parse(lastPurchase);
+        Date birthDateDate = formatter.parse(birthDate);
+        UserProfile userProfile = new UserProfile(
+                UUID.randomUUID(),
+                credential,
+                createdDate,
+                modifiedDate,
+                lastSessionDate,
+                totalSpent,
+                totalRefund,
+                totalTransactions,
+                lastPurchaseDate,
+                level,
+                xp,
+                totalPlayTime,
+                country,
+                language,
+                birthDateDate,
+                gender,
+                inventory,
+                customField,
+                clan,
+                devices,
+                new ArrayList<ActiveCampaign>()
+        );
         return this.userProfileRepository.save(userProfile);
     }
 
