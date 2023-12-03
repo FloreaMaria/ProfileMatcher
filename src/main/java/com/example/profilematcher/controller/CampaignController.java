@@ -5,10 +5,7 @@ import com.example.profilematcher.model.campaign.dto.CampaignDto;
 import com.example.profilematcher.service.impl.CampaignServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 
@@ -44,9 +41,8 @@ public class CampaignController {
 //        return campaigns;
 //    }
 
-    @PostMapping(value = "all")
-    public Iterable<Campaign> getAllAvailableCampaigns(){
-
+    @GetMapping(value = "all")
+    public Iterable<Campaign> getAll(){
         return campaignService.findAll();
     }
 }
