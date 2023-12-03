@@ -29,7 +29,7 @@ public class CampaignController {
 
         List<String> countries = new ArrayList<>();
 
-        countries.add("FR");
+        countries.add("RO");
         List<String> requiredItems = new ArrayList<>();
         requiredItems.add("item_1");
         HasMatcher hasMatcher = new HasMatcher(countries, requiredItems);
@@ -42,14 +42,11 @@ public class CampaignController {
         Date endDate = new Date();
         Boolean enabled = true;
         Date lastUpdated = new Date();
-
-
         CampaignMatcher campaignMatcher = new CampaignMatcher(
                 levelMatcher,
                 hasMatcher,
                 doesNotHaveMatcher
         );
-
         Campaign campaign = new Campaign(
                 UUID.randomUUID(),
                 "mygame",
@@ -63,17 +60,12 @@ public class CampaignController {
         );
 
         Campaign savedCampaign = campaignService.save(campaign);
-
         return ResponseEntity.ok(savedCampaign);
     }
 
 
     @GetMapping("/search")
     public  Iterable<CampaignElasticSearch> searchCampaigns(
-//            @RequestParam int myLevel,
-//            @RequestParam List<String> country,
-//            @RequestParam List<String> myItems,
-//            @RequestParam List<String> notInItems
     ) throws JsonProcessingException {
         List<String> myItems = new ArrayList<>();
         myItems.add("item_1");
@@ -82,13 +74,13 @@ public class CampaignController {
         String country = "FR";
         List<String> itemList = Arrays.asList("item_1", "item_2", "item_3");
         String jsonItems = new ObjectMapper().writeValueAsString(myItems);
-        Iterable<CampaignElasticSearch> campaigns = campaignService.findCampaignsByConditions(1L, country, jsonItems);
+        Iterable<CampaignElasticSearch> campaigns = campaignService.findCampaignsByConditions(1L, country, itemList);
         return campaigns;
     }
 
-//    @PostMapping(value = "all")
-//    public Iterable<Campaign> getAllAvailableCampaigns(){
-//
-//        return campaignService.findAll();
-//    }
+    @PostMapping(value = "all")
+    public Iterable<Campaign> getAllAvailableCampaigns(){
+
+        return campaignService.findAll();
+    }
 }

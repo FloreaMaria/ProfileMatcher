@@ -34,12 +34,13 @@ public class CampaignServiceImpl implements CampaignService {
 
 
     @Override
-    public List<CampaignElasticSearch> findCampaignsByConditions(Long myLevel, String country, String myItems) {
-        return elasticsearchCampaignRepository.findCampaignsByConditions(myLevel, country, myItems, new Date());
+    public List<CampaignElasticSearch> findCampaignsByConditions(Long myLevel, String country, List<String> myItems) {
+        return elasticsearchCampaignRepository.findCampaignsByConditions(myLevel, country, myItems);
     }
     @Override
-    public Iterable<CampaignElasticSearch> findAll() {
-        return elasticsearchCampaignRepository.findAll();
+    public Iterable<Campaign> findAll() {
+
+        return campaignRepository.findAll();
     }
     @Override
     public Campaign save(Campaign campaign) {

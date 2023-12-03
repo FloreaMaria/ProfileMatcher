@@ -1,8 +1,11 @@
 package com.example.profilematcher.model.userprofile;
 
+import com.example.profilematcher.model.campaign.Campaign;
 import com.example.profilematcher.model.campaign.CampaignMatcher;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
-import org.springframework.data.cassandra.core.mapping.*;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import org.springframework.data.cassandra.core.mapping.UserDefinedType;
 
 import java.util.Date;
 import java.util.UUID;
@@ -23,7 +26,6 @@ public class ActiveCampaign {
     private Double priority;
 
     @Column(value = "matchers")
-    @CassandraType(type = CassandraType.Name.UDT, userTypeName = "campaign_matcher_type")
     private CampaignMatcher campaignMatcher;
 
     @Column(value = "start_date")
@@ -39,6 +41,18 @@ public class ActiveCampaign {
     private Date lastUpdated;
 
     public ActiveCampaign() {
+    }
+
+    public ActiveCampaign(Campaign campaign) {
+        this.campaignId = campaign.getCampaignId();
+        this.game = campaign.getGame();
+        this.name = campaign.getName();
+        this.priority = campaign.getPriority();
+        this.campaignMatcher = campaign.getMatchers();
+        this.startDate = campaign.getStartDate();
+        this.endDate = campaign.getEndDate();
+        this.enabled = campaign.getEnabled();
+        this.lastUpdated = campaign.getLastUpdated();
     }
 
     public ActiveCampaign(UUID campaignId, String game, String name, Double priority, CampaignMatcher campaignMatcher, Date startDate, Date endDate, Boolean enabled, Date lastUpdated) {

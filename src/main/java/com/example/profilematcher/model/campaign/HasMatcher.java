@@ -2,6 +2,7 @@ package com.example.profilematcher.model.campaign;
 
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.UserDefinedType;
+
 import java.util.List;
 
 @UserDefinedType("has_matcher_type")

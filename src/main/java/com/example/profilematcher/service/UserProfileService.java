@@ -8,4 +8,5 @@ import java.util.UUID;
 public interface UserProfileService {
     UserProfile getClientConfig(UUID playerId);
     UserProfile save(UserProfile userProfile);
+    public Iterable<UserProfile> all();
 }

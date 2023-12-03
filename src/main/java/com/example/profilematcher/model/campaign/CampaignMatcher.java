@@ -19,6 +19,7 @@ public class CampaignMatcher {
     public CampaignMatcher() {
     }
 
+
     public CampaignMatcher(LevelMatcher levelMatcher, HasMatcher hasMatcher, DoesNotHaveMatcher doesNotHaveMatcher) {
         this.levelMatcher = levelMatcher;
         this.hasMatcher = hasMatcher;

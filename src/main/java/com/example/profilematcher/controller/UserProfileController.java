@@ -1,5 +1,6 @@
 package com.example.profilematcher.controller;
 
+import com.example.profilematcher.model.campaign.elasticsearch.CampaignElasticSearch;
 import com.example.profilematcher.model.userprofile.ActiveCampaign;
 import com.example.profilematcher.model.userprofile.Clan;
 import com.example.profilematcher.model.userprofile.Device;
@@ -22,10 +23,20 @@ public class UserProfileController {
         this.userProfileService = userProfileService;
     }
 
+//    @GetMapping(value = "get_client_config/{player_id}")
+//    public ResponseEntity<UserProfile> getClientConfig(@PathVariable("player_id") UUID playerId){
+//        UserProfile userProfile = userProfileService.getClientConfig(playerId);
+//        return ResponseEntity.ok(userProfile);
+//    }
+
     @GetMapping(value = "get_client_config/{player_id}")
     public ResponseEntity<UserProfile> getClientConfig(@PathVariable("player_id") UUID playerId){
         UserProfile userProfile = userProfileService.getClientConfig(playerId);
         return ResponseEntity.ok(userProfile);
+    }
+    @GetMapping(value = "all")
+    public Iterable<UserProfile> getAll(){
+        return userProfileService.all();
     }
     @PostMapping(value = "save")
     public ResponseEntity<UserProfile> save(){
@@ -37,6 +48,16 @@ public class UserProfileController {
 //        Clan clan = new Clan(123456L, "Hello world clan");
         Map<String, String> clan = new HashMap<>();
         clan.put("id", "12131");
+        clan.put("name", "Hello world clan");
+        Map<String, Integer> inventory = new HashMap<>();
+        inventory.put("cash", 121);
+        inventory.put("coins", 123);
+        inventory.put("item_1", 1);
+        inventory.put("item_34", 3);
+        inventory.put("item_55", 2);
+        Device device = new Device(1L, "apple iphone11", "vodafone", "123");
+        List<Device> devices = new ArrayList<>();
+        devices.add(device);
         UserProfile userProfile = new UserProfile(
                 UUID.randomUUID(),
                 "apple_credential",
@@ -50,14 +71,14 @@ public class UserProfileController {
                 3,
                 1000,
                 144,
-                "CA",
+                "FR",
                 "fr",
                 birthDate,
                 "male",
-                new HashMap<String, Integer>(),
+                inventory,
                 "mycustom",
                 clan,
-                new ArrayList<Device>(),
+                devices,
                 new ArrayList<ActiveCampaign>()
                 );
 
