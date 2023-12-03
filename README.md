@@ -48,7 +48,7 @@ Follow these steps to set up and run the project:
     ```
 ## Test the API's
 
-Send requests via Postman collection attached profile_matcher.postman_collection.json.
+Send requests via Postman collection attached [profile_matcher.postman_collection.json](https://github.com/FloreaMaria/ProfileMatcher/blob/master/profile_matcher.postman_collection.json).
 
 
         
