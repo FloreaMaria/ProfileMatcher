@@ -8,7 +8,7 @@ Before you begin, ensure you have met the following requirements:
 - [Java](https://www.oracle.com/java/technologies/javase-downloads.html) v17
 - [Cassandra](https://cassandra.apache.org/) v4.0.7
 - [Elasticsearch](https://www.elastic.co/downloads/elasticsearch) v7.10.2
-
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) v24.0.6
 ## Installation
 
 Follow these steps to set up and run the project:
