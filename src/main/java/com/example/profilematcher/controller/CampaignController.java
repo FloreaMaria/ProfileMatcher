@@ -1,18 +1,16 @@
 package com.example.profilematcher.controller;
 
-import com.example.profilematcher.model.campaign.*;
+import com.example.profilematcher.model.campaign.Campaign;
 import com.example.profilematcher.model.campaign.dto.CampaignDto;
-import com.example.profilematcher.model.campaign.elasticsearch.CampaignElasticSearch;
 import com.example.profilematcher.service.impl.CampaignServiceImpl;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
-import java.util.*;
 
 @RestController
 @RequestMapping(value = "campaign/")

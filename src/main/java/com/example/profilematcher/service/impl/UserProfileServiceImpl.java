@@ -1,7 +1,8 @@
 package com.example.profilematcher.service.impl;
 
+import com.example.profilematcher.exception.EmptyFieldException;
+import com.example.profilematcher.exception.NoUserProfileFoundException;
 import com.example.profilematcher.model.campaign.Campaign;
-import com.example.profilematcher.model.campaign.elasticsearch.CampaignElasticSearch;
 import com.example.profilematcher.model.userprofile.ActiveCampaign;
 import com.example.profilematcher.model.userprofile.Device;
 import com.example.profilematcher.model.userprofile.UserProfile;
@@ -14,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -40,12 +39,13 @@ public class UserProfileServiceImpl implements UserProfileService {
     public UserProfile getClientConfig(UUID playerId) {
         //retrieve the user player by id
         UserProfile userProfile = this.userProfileRepository.findByPlayerId(playerId);
-
+        if (userProfile == null) {
+            throw new NoUserProfileFoundException("Profile with given id was not found");
+        }
         //clear the lists with the current active campaigns
         if(userProfile.getActiveCampaigns() != null){
             userProfile.getActiveCampaigns().clear();
         }
-
         //create a list of the items he has in inventory
         List<String> userItems = new ArrayList<>();
         Map<String, Integer> inventory = userProfile.getInventory();
@@ -53,7 +53,7 @@ public class UserProfileServiceImpl implements UserProfileService {
             userItems.add(String.valueOf(key));
         }
         //retrieve his level, country
-        int userLevel = userProfile.getLevel();
+        Integer userLevel = userProfile.getLevel();
         String userCountry = userProfile.getCountry();
 
         //retrieve all the current campaigns
@@ -76,6 +76,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
         userProfile.setActiveCampaigns(userCampaigns);
         return userProfileRepository.save(userProfile);
+
     }
 
     @Override
@@ -99,6 +100,38 @@ public class UserProfileServiceImpl implements UserProfileService {
         String lastPurchase = userProfileDto.getLastPurchase();
         String birthDate = userProfileDto.getBirthDate();
         Map<String, String> clan = userProfileDto.getClan();
+
+        if(credential == null || credential.isEmpty()){
+            throw new EmptyFieldException("Credential field can not be null or empty");
+        }
+        if(created == null || created.isEmpty()){
+            throw new EmptyFieldException("Created date field can not be null or empty");
+        }
+        if(level == null ){
+            throw new EmptyFieldException("Level field can not be null");
+        }
+        if(xp == null ){
+            throw new EmptyFieldException("xp field can not be null");
+        }
+        if(totalPlayTime == null ){
+            throw new EmptyFieldException("Total play time field can not be null");
+        }
+        if(clan == null ){
+            throw new EmptyFieldException("Clan field can not be null");
+        }
+        if(country == null || country.isEmpty() ){
+            throw new EmptyFieldException("Country field can not be null or empty");
+        }
+        if(language == null || language.isEmpty() ){
+            throw new EmptyFieldException("Language field can not be null or empty");
+        }
+        if(gender == null || gender.isEmpty() ){
+            throw new EmptyFieldException("Gender field can not be null or empty");
+        }
+        if(birthDate == null || birthDate.isEmpty() ){
+            throw new EmptyFieldException("BirthDate field can not be null or empty");
+        }
+
         Map<String, Integer> inventory = userProfileDto.getInventory();
         List<Device> devices = userProfileDto.getDevices();
 

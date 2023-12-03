@@ -1,9 +1,5 @@
 package com.example.profilematcher.controller;
 
-import com.example.profilematcher.model.campaign.elasticsearch.CampaignElasticSearch;
-import com.example.profilematcher.model.userprofile.ActiveCampaign;
-import com.example.profilematcher.model.userprofile.Clan;
-import com.example.profilematcher.model.userprofile.Device;
 import com.example.profilematcher.model.userprofile.UserProfile;
 import com.example.profilematcher.model.userprofile.dto.UserProfileDto;
 import com.example.profilematcher.service.impl.UserProfileServiceImpl;
@@ -12,9 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "user_profile/")

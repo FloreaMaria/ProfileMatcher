@@ -1,5 +1,6 @@
 package com.example.profilematcher.service.impl;
 
+import com.example.profilematcher.exception.EmptyFieldException;
 import com.example.profilematcher.model.campaign.*;
 import com.example.profilematcher.model.campaign.dto.CampaignDto;
 import com.example.profilematcher.model.campaign.elasticsearch.*;
@@ -7,18 +8,16 @@ import com.example.profilematcher.repository.CampaignRepository;
 import com.example.profilematcher.repository.ElasticsearchCampaignRepository;
 import com.example.profilematcher.service.CampaignService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.http.HttpMethod;
-
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -26,15 +25,12 @@ public class CampaignServiceImpl implements CampaignService {
 
     private final ElasticsearchCampaignRepository elasticsearchCampaignRepository;
     private final CampaignRepository campaignRepository;
-    private final RestTemplate restTemplate;
 
     @Autowired
     public CampaignServiceImpl(ElasticsearchCampaignRepository elasticsearchCampaignRepository, CampaignRepository campaignRepository, RestTemplate restTemplate) {
         this.elasticsearchCampaignRepository = elasticsearchCampaignRepository;
         this.campaignRepository = campaignRepository;
-        this.restTemplate = restTemplate;
     }
-
 
     @Override
     public List<CampaignElasticSearch> findCampaignsByConditions(Long myLevel, String country, List<String> myItems) {
@@ -54,9 +50,25 @@ public class CampaignServiceImpl implements CampaignService {
         String endDate = campaignDto.getEndDate();
         String lastUpdate = campaignDto.getLastUpdated();
         Boolean enabled = campaignDto.getEnabled();
-//        LevelMatcher levelMatcher = campaignDto.getLevelMatcher();
-//        HasMatcher hasMatcher = campaignDto.getHasMatcher();
-//        DoesNotHaveMatcher doesNotHaveMatcher = campaignDto.getDoesNotHaveMatcher();
+
+        if(game == null || game.isEmpty()){
+            throw new EmptyFieldException("Game field can not be null or empty");
+        }
+        if(name == null || name.isEmpty()){
+            throw new EmptyFieldException("Name field can not be null or empty");
+        }
+        if(priority == null){
+            throw new EmptyFieldException("Priority field can not be null");
+        }
+        if(startDate == null || startDate.isEmpty()){
+            throw new EmptyFieldException("Start date field can not be null or empty");
+        }
+        if(endDate == null || endDate.isEmpty()){
+            throw new EmptyFieldException("End date field can not be null or empty");
+        }
+        if(enabled == null){
+            throw new EmptyFieldException("Enabled field can not be null");
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.FRANCE);
         Date startDateFormatted = formatter.parse(startDate);
         Date endDateFormatted = formatter.parse(endDate);
