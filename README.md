@@ -42,7 +42,7 @@ Follow these steps to set up and run the project:
 
 4. **ElasticSearch:**
 
-   Run the following command to ElasticSearch on docker:
+   Run the following command to run ElasticSearch on docker:
     ```bash
     docker run --network=profile_matcher --name=elasticsearch-container -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.10.2
     ```
